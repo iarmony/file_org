@@ -33,3 +33,27 @@ Practicing your keyboard shortcuts. Try out the following as you work on this ex
 - Run a code chunk
 - Navigating around words and lines (selecting and deleting them)
 - Run selected lines (not a whole code chunk)
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+```
+
+
+```{r}
+weather <- read.csv("../../data/raw/weather.csv")
+```
+
+```{r}
+weather
+
+weather_new <- weather %>%
+  mutate(PrecipYr = na_if(PrecipYr, 99999)) %>% 
+  mutate(date = mdy(date)) %>% 
+  mutate(dateInYear = yday(date)) %>%
+  mutate(month_name = month(Month, label = TRUE))
+
+write_csv(weather_new, "../../data/clean/weather_new.csv")
+```
+
